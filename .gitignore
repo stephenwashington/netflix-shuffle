@@ -112,3 +112,4 @@ tags
 ###ignore pythong and .csv files
 *.py
 *.csv
+*.json
