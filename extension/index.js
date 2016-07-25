@@ -1,10 +1,10 @@
-var buttons = require('sdk/ui/button/action');
-var tabs = require('sdk/tabs');
-var data = require('sdk/self').data;
-var url = require('sdk/url');
-var showList = JSON.parse(data.load('shows.json'));
+let buttons = require('sdk/ui/button/action');
+let tabs = require('sdk/tabs');
+let data = require('sdk/self').data;
+let url = require('sdk/url');
+let showList = JSON.parse(data.load('shows.json'));
 
-var button = buttons.ActionButton({
+let button = buttons.ActionButton({
     id: "shuffle-button",
     label: "Shuffle Netflix",
     icon: {
@@ -22,21 +22,21 @@ function currentTabURL(){
 
 //return the hostname (e.g. 'www.netflix.com')
 function getURLHostname(){
-    var hostname = url.URL(currentTabURL()).hostname;
+    let hostname = url.URL(currentTabURL()).hostname;
     console.log("Hostname: " + hostname);
     return hostname;
 }
 
 //return the pathname (e.g. '/title/12345678')
 function getURLPathname(){
-    var pathname = url.URL(currentTabURL()).pathname;
+    let pathname = url.URL(currentTabURL()).pathname;
     console.log("Pathname: " + pathname);
     return pathname;
 }
 
 //return the search parameters (e.g. /browse?jbv=[12345678]&jbp=0&jbr=0)
 function getURLParameters(){
-    var parameters = url.URL(currentTabURL()).search;
+    let parameters = url.URL(currentTabURL()).search;
     console.log("Parameters: " + parameters);
     return parameters.substring(1);
 
@@ -45,7 +45,7 @@ function getURLParameters(){
 //shuffle an array, returns shuffled array
 //from: https://stackoverflow.com/a/2450976
 function shuffle(array) {
-    var currentIndex = array.length,
+    let currentIndex = array.length,
         temporaryValue, randomIndex;
     // While there remain elements to shuffle...
     while (0 !== currentIndex) {
@@ -63,11 +63,11 @@ function shuffle(array) {
 //gets the parameters in a URL, returns a JSON containing the keys and values
 function parseURL() {
     console.log("parsing URL");
-    var queryString = getURLParameters();
-    var params = queryString.split("&");
-    var paramsAndValues = {};
-    for (var i = 0; i < params.length; i++) {
-        var val = params[i].split("=");
+    let queryString = getURLParameters();
+    let params = queryString.split("&");
+    let paramsAndValues = {};
+    for (let i = 0; i < params.length; i++) {
+        let val = params[i].split("=");
         paramsAndValues[decodeURIComponent(val[0])] = decodeURIComponent(
             val[1]); //using decodeURIComponent to be on the safe side
     }
@@ -84,10 +84,10 @@ function parseURL() {
 // 5. netflix.com/watch/[episodeID]
 function getShowID() {
     console.log("Getting show ID");
-    var showID = "";
-    var currentLocation = getURLPathname();
+    let showID = null;
+    let currentLocation = getURLPathname();
     if (currentLocation.indexOf("browse") > -1) {
-        var params = parseURL();
+        let params = parseURL();
         console.log("On browse with params, params are: " + JSON.stringify(params, null, 2));
         showID = params["jbv"];
     } else if (currentLocation.indexOf("title") > -1) {
@@ -95,17 +95,24 @@ function getShowID() {
             console.log("on /title, no params");
             showID = currentLocation.split("/").pop();
         } else {
-            var params = parseURL();
+            let params = parseURL();
             console.log("On title with params, params are: " + JSON.stringify(params, null, 2));
             showID = params["jbv"];
         }
     } else if (currentLocation.indexOf("search") > -1){
-        var params = parseURL();
+        let params = parseURL();
         console.log("On search with params, params are: " + JSON.stringify(params, null, 2));
         showID = params["jbv"];
     } else if (currentLocation.indexOf("watch") > -1){
-        for (var show = 0; show < showList.length; show++){
-            
+        let episodeID = currentLocation.split("/").pop();
+        console.log("On /watch/, episodeID = " + episodeID);
+        for (let show in showList){
+            let episodes = showList[show]["episodes"];
+            if (episodes.indexOf(episodeID) > -1){
+                showID = show;
+                console.log("Show is from " + showList[show]["showTitle"]);
+                break;
+            }
         }
     }
     console.log("showID is " + showID);
@@ -113,36 +120,39 @@ function getShowID() {
 }
 
 //The main function - triggered when the addon button is clicked
-//Opens a new tab with a random episode of the show the user is on
+//Redirects the current tab to a random episode of the show the user is on
 function getEpisode() {
-    var showID = "";
+    console.log("==== BUTTON CLICKED ====");
     //check to see if we're on a valid page
-    if (getURLHostname() == "www.netflix.com") {
-        showID = getShowID();
-        if (showID.length == 0) {
-            console.log("No showID found!");
-            return;
-        }
-
-        //Retrieve the episode list
-        if (showList == null){
-            console.log("shows.json didn't load!");
-            return;
-        }
-        console.log("shows.json successfully loaded");
-        if (!showList.hasOwnProperty(showID)){
-            console.log("Show with ID " + showID + " is not in shows.json");
-            return;
-        }
-
-        //and play a random episode
-        var episodeList = shuffle(showList[showID]["episodes"]);
-        var randomEpisodeID = episodeList.shift();
-        console.log("Episode " + randomEpisodeID +  " from the show " + showList[showID]["showTitle"] + " has been selected");
-        var randomEpisodeURL = "http://netflix.com/watch/" + randomEpisodeID;
-        tabs.activeTab.url = randomEpisodeURL;
+    if (getURLHostname() != "www.netflix.com") {
+        console.log("We're not on netflix.com");
+        return;
     }
-    else{
-        console.log("We're not on netflix.com :(")
+
+    //check if showList got loaded properly
+    if (showList == null){
+        console.log("shows.json didn't load!");
+        return;
     }
+
+    let showID = getShowID();
+
+    //check if showID was found
+    if (showID == null) {
+        console.log("showID could not parsed from " + currentTabURL());
+        return;
+    }
+
+    //check if showID is in shows.json
+    if (!showList.hasOwnProperty(showID)){
+        console.log("Show with episode with ID " + episodeID + " could not be found in shows.json");
+    }
+
+
+    //Play a random episode
+    let episodeList = shuffle(showList[showID]["episodes"]);
+    let randomEpisodeID = episodeList[0];
+    console.log("Episode " + randomEpisodeID +  " from the show " + showList[showID]["showTitle"] + " has been selected");
+    let randomEpisodeURL = "http://netflix.com/watch/" + randomEpisodeID;
+    tabs.activeTab.url = randomEpisodeURL;
 }
