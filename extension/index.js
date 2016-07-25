@@ -1,7 +1,8 @@
 var buttons = require('sdk/ui/button/action');
 var tabs = require('sdk/tabs');
 var data = require('sdk/self').data;
-var url = require('sdk/url')
+var url = require('sdk/url');
+var showList = JSON.parse(data.load('shows.json'));
 
 var button = buttons.ActionButton({
     id: "shuffle-button",
@@ -80,6 +81,7 @@ function parseURL() {
 // 2. netflix.com/browse?jbv=[showID]&jbp=0&jbr=0
 // 3. netflix.com/title/[otherShowID]?jbv=[showID]&jbp=0&jbr=1
 // 4. netflix.com/search/[otherShowID]?jbv=[showID]&jbp=0&jbr=2
+// 5. netflix.com/watch/[episodeID]
 function getShowID() {
     console.log("Getting show ID");
     var showID = "";
@@ -101,6 +103,10 @@ function getShowID() {
         var params = parseURL();
         console.log("On search with params, params are: " + JSON.stringify(params, null, 2));
         showID = params["jbv"];
+    } else if (currentLocation.indexOf("watch") > -1){
+        for (var show = 0; show < showList.length; show++){
+            
+        }
     }
     console.log("showID is " + showID);
     return showID;
@@ -119,7 +125,6 @@ function getEpisode() {
         }
 
         //Retrieve the episode list
-        var showList = JSON.parse(data.load('shows.json'));
         if (showList == null){
             console.log("shows.json didn't load!");
             return;
@@ -135,7 +140,7 @@ function getEpisode() {
         var randomEpisodeID = episodeList.shift();
         console.log("Episode " + randomEpisodeID +  " from the show " + showList[showID]["showTitle"] + " has been selected");
         var randomEpisodeURL = "http://netflix.com/watch/" + randomEpisodeID;
-        tabs.open(randomEpisodeURL);
+        tabs.activeTab.url = randomEpisodeURL;
     }
     else{
         console.log("We're not on netflix.com :(")
