@@ -109,7 +109,8 @@ Session.vim
 # auto-generated tag files
 tags
 
-###ignore pythong and .csv files
+###ignore python and .csv files
 *.py
 *.csv
 *.json
+*.txt

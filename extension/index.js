@@ -145,7 +145,7 @@ function getEpisode() {
 
     //check if showID is in shows.json
     if (!showList.hasOwnProperty(showID)){
-        console.log("Show with episode with ID " + episodeID + " could not be found in shows.json");
+        console.log("Show with ID " + showID + " could not be found in shows.json");
     }
 
 
