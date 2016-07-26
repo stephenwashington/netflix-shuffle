@@ -12,7 +12,7 @@ let button = buttons.ActionButton({
         "32": './icon-32.png',
         "64": './icon-64.png'
     },
-    onClick: getEpisode
+    onClick: getRandomEpisode
 });
 
 //return true if we're on netflix.com
@@ -40,24 +40,6 @@ function getURLParameters(){
     console.log("Parameters: " + parameters);
     return parameters.substring(1);
 
-}
-
-//shuffle an array, returns shuffled array
-//from: https://stackoverflow.com/a/2450976
-function shuffle(array) {
-    let currentIndex = array.length,
-        temporaryValue, randomIndex;
-    // While there remain elements to shuffle...
-    while (0 !== currentIndex) {
-        // Pick a remaining element...
-        randomIndex = Math.floor(Math.random() * currentIndex);
-        currentIndex -= 1;
-        // And swap it with the current element.
-        temporaryValue = array[currentIndex];
-        array[currentIndex] = array[randomIndex];
-        array[randomIndex] = temporaryValue;
-    }
-    return array;
 }
 
 //gets the parameters in a URL, returns a JSON containing the keys and values
@@ -121,7 +103,7 @@ function getShowID() {
 
 //The main function - triggered when the addon button is clicked
 //Redirects the current tab to a random episode of the show the user is on
-function getEpisode() {
+function getRandomEpisode() {
     console.log("==== BUTTON CLICKED ====");
     //check to see if we're on a valid page
     if (getURLHostname() != "www.netflix.com") {
@@ -146,12 +128,13 @@ function getEpisode() {
     //check if showID is in shows.json
     if (!showList.hasOwnProperty(showID)){
         console.log("Show with ID " + showID + " could not be found in shows.json");
+        return;
     }
 
 
     //Play a random episode
-    let episodeList = shuffle(showList[showID]["episodes"]);
-    let randomEpisodeID = episodeList[0];
+    let episodeList = showList[showID]["episodes"];
+    let randomEpisodeID = episodeList[Math.floor(Math.random()*episodeList.length)];
     console.log("Episode " + randomEpisodeID +  " from the show " + showList[showID]["showTitle"] + " has been selected");
     let randomEpisodeURL = "http://netflix.com/watch/" + randomEpisodeID;
     tabs.activeTab.url = randomEpisodeURL;
