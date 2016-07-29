@@ -1,8 +1,7 @@
 #!/usr/bin/evn python3
 import json
-from shutil import copyfile, make_archive, rmtree, copytree, copy
-from os import walk, makedirs
-from os.path import relpath, isdir, exists, join
+from shutil import make_archive, rmtree, copytree, copy
+from os.path import isdir, exists
 
 VERSION_NUM = "1.0"
 
@@ -26,7 +25,7 @@ def build_firefox():
         }
         manifest["version"] = VERSION_NUM
         json.dump(manifest, fout, indent=4, sort_keys=True)
-    make_archive("build/firefox/netflixshuffle", 'zip', 'build/firefox/')
+    make_archive("build/netflixshuffle_ffx", 'zip', 'build/firefox/')
 
 def build_chromium():
     with open("extension/manifest.json", "r") as fin, open("build/chromium/manifest.json", "w") as fout:
@@ -35,7 +34,7 @@ def build_chromium():
         manifest["background"]["persistent"] = False
         json.dump(manifest, fout, indent=4, sort_keys=True)
 
-    make_archive("build/chromium/netflixshuffle", 'zip', 'build/chromium/')
+    make_archive("build/netflixshuffle_chr", 'zip', 'build/chromium/')
 
 def main():
     print("Removing old build")
