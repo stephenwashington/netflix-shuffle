@@ -3,7 +3,7 @@ import json
 from shutil import make_archive, rmtree, copytree, copy
 from os.path import isdir, exists
 
-VERSION_NUM = "1.0"
+VERSION_NUM = "0.1"
 
 def reset_build_dir():
     if isdir("build") and exists("build"):
