@@ -19,7 +19,7 @@ def add_show():
             last = '0000'
             while True:
                 e += 1
-                last_four = input("Season {}, episode {}: ".format(s,e))
+                last_four = input("Last four digits of Season {}, episode {}: ".format(s,e))
                 if last_four == "q":
                     break
                 elif last_four == "":

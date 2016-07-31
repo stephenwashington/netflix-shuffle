@@ -1,10 +1,32 @@
+#Netflix Shuffle
+
 A shuffle button for Netflix TV shows.
 
-To operate, simply navigate to a show's page on Netflix and click the extension's button. A random episode will play. The extension will also work if you access a show by searching, or through the 'Shows You Might Like' feature Netflix has.
+To operate, simply navigate to a show's page on Netflix and click the extension's button. A random episode will play. The extension will also work if you access a show by searching, or through the 'Shows You Might Like' feature.
 
 The extension will notify you if you are on an invalid page or a page for a show that hasn't been added. I am adding shows all the time. If there's a show you would like support for, send me a note and I'll add it in the next release.
 
-==== LIST OF SHOWS ====
+Netflix Shuffle takes advantage of the Web Extension API that is shared by Chrome and Firefox. To build the extensions, run python3 build_extension.py. This will generate .zip files for the Firefox and Chrome versions of the extension.
+
+#Adding/Updating the shows.json
+
+Since Netflix isn't a fan of scraping, I wrote a python script (dionysus.py) that helps automate some of this. Netflix follows two patters in listing it's shows:
+
+1. Shows are identified through an eight-digit ID (showID), and this is viewable through accessing netflix.com/title/[showID].
+2. Episodes are also identified through an eight-digit ID (episodeID), and (for the most part) episodeIDs increment through a season (Futurama is perhaps the biggest violator of this rule, which, given its broadcast history, I find cosmically amusing).
+
+To add a show, run
+
+    python3 dionysus.py a
+
+And follow its instructions. After the first four digits are added, one only needs to enter the last four of the first episode, then hit [ENTER] to increment until all the episodes from the season are logged. Entering 'q' stops the adding for a season and moves on to the next (or terminates the script if the final season is reached). Be sure to double check the episodes' IDs as you go through a show, as Netflix tends to switch up its ID scheme when you're not paying attention.
+
+dionyus.py also generates (through the 'u' flag) the shows.json for the extension from the shows.csv file that contains every episode.
+
+#List of Shows
+
+These are the shows currently in the shows.json
+
 ==== LIST OF SHOWS ====
 30 Rock
 Alias

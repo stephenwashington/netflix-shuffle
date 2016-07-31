@@ -108,6 +108,3 @@ Session.vim
 
 # auto-generated tag files
 tags
-
-###ignore python and .csv files
-*.txt
