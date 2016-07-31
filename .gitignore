@@ -110,7 +110,4 @@ Session.vim
 tags
 
 ###ignore python and .csv files
-dionysus.py
-*.csv
-*.json
 *.txt

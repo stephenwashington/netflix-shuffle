@@ -1,9 +1,10 @@
 A shuffle button for Netflix TV shows.
 
-To operate, simply navigate to a show on Netflix (e.g. <a href="https://www.netflix.com/title/70153404">Friends</a>, and click the button. A random episode will play.
+To operate, simply navigate to a show's page on Netflix and click the extension's button. A random episode will play. The extension will also work if you access a show by searching, or through the 'Shows You Might Like' feature Netflix has.
 
-Included is support for 87 shows. The extension will silently fail if it's on a show it does not recognize, but I am adding shows all the time. If there's a show you would like support for, send me a note and I'll add it in the next release.
+The extension will notify you if you are on an invalid page or a page for a show that hasn't been added. I am adding shows all the time. If there's a show you would like support for, send me a note and I'll add it in the next release.
 
+==== LIST OF SHOWS ====
 ==== LIST OF SHOWS ====
 30 Rock
 Alias
@@ -12,6 +13,7 @@ Archer
 Arrested Development
 Arrow
 Black Mirror
+Bob Ross: Beauty Is Everywhere
 Bob's Burgers
 Bojack Horseman
 Bones
@@ -29,6 +31,7 @@ Family Guy
 Firefly
 Frasier
 Freaks and Geeks
+Friday Night Lights
 Friends
 Fringe
 Futurama
@@ -48,6 +51,7 @@ Jessica Jones
 Justice League
 Justice League Unlimited
 Kill La Kill
+Law & Order: Special Victims Unit
 Lost
 Luther
 Mad Men
@@ -57,10 +61,14 @@ Master of None
 NCIS
 Narcos
 New Girl
+Nurse Jackie
+Once Upon A Time
+One Tree Hill
 Orange Is The New Black
 Parks and Recreation
 Phineas and Ferb
 Portlandia
+Prison Break
 Psych
 Scandal
 Scooby-Doo!: Mystery Incorporated
@@ -72,6 +80,7 @@ Star Trek: Deep Space Nine
 Star Trek: Enterprise
 Star Trek: The Next Generation
 Star Trek: Voyager
+Star Wars: The Clone Wars
 Stranger Things
 Supernatural
 That '70s Show
@@ -88,10 +97,6 @@ The X-Files
 Unbreakable Kimmy Schmidt
 Weeds
 Young Justice
------------------------
-83 shows
-8760 episodes
-
 ==============
 
-Television icon from <a href="http://www.flaticon.com/authors/icon-works">Icon Works</a>. Shuffle icon from <a href="http://www.flaticon.com/authors/pavel-kozlov">Pavel Kozlov</a>.
+Television icon from [Icon Works](http://www.flaticon.com/authors/icon-works). Shuffle icon from [Pavel Kozlov](http://www.flaticon.com/authors/pavel-kozlov)

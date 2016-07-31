@@ -1,0 +1,25 @@
+{
+    "name": "Netflix Shuffle",
+    "manifest_version": 2,
+    "version": "0.0.0.1",
+    "description": "Netflix Shuffle adds a button that detects which Netflix show page the user is on, and plays a random episode from that show.",
+    "icons": {
+        "64": "data/icon-64.png",
+        "128": "data/icon-128.png",
+        "256": "data/icon-256.png",
+        "512": "data/icon-512.png"
+    },
+    "background": {
+        "scripts": ["background.js"]
+    },
+    "permissions": [
+        "activeTab",
+        "notifications",
+        "tabs"
+    ],
+
+    "browser_action": {
+        "default_icon": "data/icon-64.png",
+        "default_title": "Netflix Shuffle"
+    }
+}
